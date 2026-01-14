@@ -1,0 +1,33 @@
+- id: "1"
+  title: "Database Latency Spike"
+  description: "High latency observed in the primary database affecting checkout flow during peak traffic hours."
+  pager_duty_alerts:
+    - "High CPU usage on DB-Primary"
+    - "Connection pool exhaustion on Checkout-Service"
+  mitigation_steps:
+    - text: "Scaled up read replicas to handle load"
+      runbook_url: "https://example.com/runbook/scaling-db"
+    - text: "Restarted Checkout-Service pods"
+  teams: "Database Team, SRE"
+- id: "2"
+  title: "Payment Gateway API Timeout"
+  description: "External payment gateway stopped responding to requests, causing 5xx errors in the payment service."
+  pager_duty_alerts:
+    - "5xx Error Rate > 5% on Payment-Service"
+    - "API Latency > 2s on External-Gateway"
+  mitigation_steps:
+    - text: "Rolled back recent deployment of Payment-Service"
+      runbook_url: "https://example.com/runbook/rollback"
+    - text: "Contacted Payment Provider Support"
+  teams: "Payments Team"
+- id: "3"
+  title: "User Login Failure Rate Spike"
+  description: "Sudden increase in failed login attempts detected from a specific IP range, indicating a potential brute-force attack."
+  pager_duty_alerts:
+    - "Auth Service Error Rate > 1%"
+    - "High failed login attempts from specific IP range"
+  mitigation_steps:
+    - text: "Blocked suspicious IP range via WAF"
+      runbook_url: "https://example.com/runbook/block-ip"
+    - text: "Flushed Redis auth cache"
+  teams: "Security Team, Identity Team"
