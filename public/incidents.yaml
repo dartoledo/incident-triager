@@ -3,6 +3,14 @@
   row: 1
   col_span: 1
   symptom_description: "User sees a blank screen, broken layout, or an Akamai error message."
+  mermaid_chart: |
+    graph TD
+      A[Start: User sees error] --> B{Signal Check}
+      B -->|Edge 5xx| C[Rollback Akamai]
+      B -->|WAF 403| D[Set WAF Alert-Only]
+      B -->|Asset 404| E[Purge CDN/Fix Build]
+      B -->|JS Error| F[Rollback Frontend]
+      C & D & E & F --> G[Verify Recovery]
   monitoring_signals:
     - label: "Akamai Edge Errors"
       value: "5xx"
@@ -44,6 +52,14 @@
   row: 1
   col_span: 1
   symptom_description: "User clicks 'Login' but gets an error, infinite spinner, or 'Invalid Credentials'."
+  mermaid_chart: |
+    graph TD
+      A[Start: Login Failed] --> B{Error Type?}
+      B -->|5xx Crash| C[Rollback Backend API]
+      B -->|502 Timeout| D{Connectivity Check}
+      D -->|GCP OK| E[Check On-Prem]
+      B -->|401 Auth| F[Check DB / Security]
+      B -->|429 RateLimit| G[Scale Gateway]
   monitoring_signals:
     - label: "Availability"
       value: "5xx %"
@@ -81,6 +97,13 @@
   row: 2
   col_span: 1
   symptom_description: "API errors are originating specifically from the Google Cloud load balancer."
+  mermaid_chart: |
+    graph TD
+      A[Start: GCP Errors] --> B{Check Health}
+      B -->|Unhealthy Pods| C[Check CrashLoop]
+      B -->|LB 5xx| D[Check Ingress]
+      B -->|Traffic Drain?| E[Drain Region to On-Prem]
+      E --> F[Verify Recovery]
   monitoring_signals:
     - label: "GCP LB 5xx Rate"
       value: "Rate"
@@ -110,6 +133,12 @@
   row: 2
   col_span: 1
   symptom_description: "API errors are originating specifically from the On-Prem Data Center."
+  mermaid_chart: |
+    graph TD
+      A[Start: DC Errors] --> B{Check Health}
+      B -->|F5 5xx| C[Check Backend Pool]
+      B -->|Sat Link| D[Failover to GCP]
+      D --> E[Verify Traffic Shift]
   monitoring_signals:
     - label: "F5/Nginx 5xx Rate"
       value: "Rate"
@@ -139,6 +168,12 @@
   row: 3
   col_span: 2
   symptom_description: "Global slowness, timeouts, or 'Data not found' across BOTH environments."
+  mermaid_chart: |
+    graph TD
+      A[Start: DB Slowness] --> B{Symptom?}
+      B -->|High Latency| C[Check Hot Partition]
+      B -->|Dropped Msg| D[Throttle API (429)]
+      B -->|Node Down| E[Restart/Repair Node]
   monitoring_signals:
     - label: "Read/Write Latency (P99)"
       value: ">50ms"
@@ -174,6 +209,12 @@
   row: 4
   col_span: 2
   symptom_description: "Did a recent change trigger this?"
+  mermaid_chart: |
+    graph TD
+      A[Start: Review Changes] --> B{Recent Deploy?}
+      B -->|Yes| C[Compare Timestamp]
+      C -->|Match| D[Auto-Rollback]
+      B -->|No| E[Check Config/FeatureFlag]
   monitoring_signals:
     - label: "Recent Deploys"
       value: "Time"

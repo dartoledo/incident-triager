@@ -2,20 +2,20 @@
 
 :root {
   --font-family: 'Inter', sans-serif;
-  
-  /* Palette */
-  --bg-dark: #0f172a;
-  --bg-card: rgba(30, 41, 59, 0.7);
-  --bg-card-hover: rgba(30, 41, 59, 0.9);
-  --text-primary: #f8fafc;
-  --text-secondary: #94a3b8;
-  --text-accent: #38bdf8;
-  --border-color: rgba(255, 255, 255, 0.1);
-  
-  --shadow-sm: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  
-  --glass-border: 1px solid rgba(255, 255, 255, 0.05);
+
+  /* Palette - B&W Dark Mode */
+  --bg-dark: #000000;
+  --bg-card: rgba(20, 20, 20, 0.8);
+  --bg-card-hover: rgba(30, 30, 30, 0.9);
+  --text-primary: #ffffff;
+  --text-secondary: #a3a3a3;
+  --text-accent: #e5e5e5;
+  --border-color: rgba(255, 255, 255, 0.15);
+
+  --shadow-sm: 0 4px 6px -1px rgba(255, 255, 255, 0.05), 0 2px 4px -1px rgba(255, 255, 255, 0.03);
+  --shadow-lg: 0 10px 15px -3px rgba(255, 255, 255, 0.08), 0 4px 6px -2px rgba(255, 255, 255, 0.04);
+
+  --glass-border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 body {
@@ -24,10 +24,6 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   background-color: var(--bg-dark);
-  background-image: 
-    radial-gradient(at 0% 0%, rgba(56, 189, 248, 0.1) 0px, transparent 50%),
-    radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.1) 0px, transparent 50%);
-  background-attachment: fixed;
   color: var(--text-primary);
   min-height: 100vh;
 }
@@ -36,7 +32,12 @@ body {
   box-sizing: border-box;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
   margin: 0 0 1rem 0;
   font-weight: 600;
   color: var(--text-primary);
